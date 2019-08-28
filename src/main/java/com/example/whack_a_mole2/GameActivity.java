@@ -7,11 +7,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -113,7 +115,9 @@ public class GameActivity extends AppCompatActivity {
                 }
                 else
                     miss ++;
-                    textMiss.setText(" "+miss);
+
+                textMiss.setText(" "+miss);
+                checkGameStatus();
             }
         });
     }
@@ -144,6 +148,8 @@ public class GameActivity extends AppCompatActivity {
                     set.start();
 
                     //vibrate
+                    Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibe.vibrate(200);
 
                     set.addListener(new AnimatorListenerAdapter() {
                         @Override
@@ -152,12 +158,14 @@ public class GameActivity extends AppCompatActivity {
                             boom.setVisibility(View.INVISIBLE);
                         }
                     });
+
+                    checkGameStatus();
+
                 }
 
             }
         });
     }
-
 
     private GridLayout createGridLayout(int rows, int columns) {
         GridLayout gridLayout = new GridLayout(this);
