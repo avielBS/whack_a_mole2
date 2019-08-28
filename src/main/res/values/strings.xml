@@ -3,9 +3,9 @@
     <string name="enter_your_name">Enter your name</string>
     <string name="edit_text_hint">name</string>
     <string name="button_message">Start Game !</string>
-    <string name="time">Time</string>
-    <string name="score">Score</string>
+    <string name="time">Time : </string>
+    <string name="score">Score : </string>
     <string name="init_score">0</string>
-    <string name="miss">miss</string>
+    <string name="miss">miss : </string>
     <string name="init_miss">0</string>
 </resources>
