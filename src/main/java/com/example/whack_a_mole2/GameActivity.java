@@ -1,7 +1,5 @@
 package com.example.whack_a_mole2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -19,6 +17,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -38,7 +38,8 @@ public class GameActivity extends AppCompatActivity {
     private final int COLUMNS = 3;
 
     private int score=0;
-    private  int miss=0;
+    private int miss=0;
+    private int bombs=0;
 
     private long timeLeft;
     private CountDownTimer countDownTimer;
@@ -48,6 +49,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewCountDown;
     private String name;
 
+    private Record record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +134,7 @@ public class GameActivity extends AppCompatActivity {
                     else
                         score = 0;
                     textScore.setText(" "+score);
+                    bombs++;
                     boom.setVisibility(View.VISIBLE);
                     bomb.setVisibility(View.INVISIBLE);
 
@@ -196,6 +199,7 @@ public class GameActivity extends AppCompatActivity {
             timer.cancel();
             showStatusMessage();
             countDownTimer.cancel();
+            saveRecord();
         }
     }
 
@@ -224,7 +228,6 @@ public class GameActivity extends AppCompatActivity {
         builder.show();
     }
 
-
     private void updateTextCountDown() {
         int minutes = (int) (timeLeft / 1000) / 60;
         int seconds = (int) (timeLeft / 1000) % 60;
@@ -247,6 +250,13 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void saveRecord(){
+        this.record = new Record(name,(int)timeLeft,score,miss,bombs);
+        DatabaseHelper db = new DatabaseHelper(this);
 
+        // todo : check insert
+        db.addRecord(record);
+        db.keepOnly10Best();
+    }
 
 }
