@@ -71,7 +71,7 @@ public class Record {
     @Override
     public String toString() {
         return
-                "name='" + name +
+                "name=" + name +
                         " score=" + score +
                         ",seconds=" + seconds +
                         ", miss=" + miss +
