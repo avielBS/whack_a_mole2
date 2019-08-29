@@ -8,4 +8,5 @@
     <string name="init_score">0</string>
     <string name="miss">miss : </string>
     <string name="init_miss">0</string>
+    <string name="DBname">WhackTheMoleDB</string>
 </resources>

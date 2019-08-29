@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.GridLayout;
@@ -252,11 +253,20 @@ public class GameActivity extends AppCompatActivity {
 
     private void saveRecord(){
         this.record = new Record(name,(int)timeLeft,score,miss,bombs);
-        DatabaseHelper db = new DatabaseHelper(this);
+        final DatabaseHelper db = new DatabaseHelper(this);
 
         // todo : check insert
-        db.addRecord(record);
-        db.keepOnly10Best();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                db.addRecord(record);
+                db.keepOnly10Best();
+            }
+        };
+
+        Thread DBthread = new Thread(runnable);
+        DBthread.start();
+
     }
 
 }
