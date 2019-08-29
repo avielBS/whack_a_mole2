@@ -84,14 +84,14 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         final int index = (int) (Math.random() * (ROWS * COLUMNS));
-                        final int bombOrMole = (int) (Math.random() * (2));
+                        final int bombOrMole = (int) (Math.random() * (4));
 
                         cells[index].showMoleOrBomb(bombOrMole);
 
                     }
                 });
                 }
-            }, 200, 800);
+            }, 200, 700);
 
             startCountDown();
     }
@@ -131,9 +131,7 @@ public class GameActivity extends AppCompatActivity {
                         score -= 3;
                     else
                         score = 0;
-                    miss += 1;
                     textScore.setText(" "+score);
-                    textMiss.setText(" "+miss);
                     boom.setVisibility(View.VISIBLE);
                     bomb.setVisibility(View.INVISIBLE);
 
