@@ -32,8 +32,6 @@ public class Statistics extends AppCompatActivity {
         dbThread.setName("Read Data Thread");
         dbThread.start();
 
-
-
     }
 
     private void readData() {
@@ -48,8 +46,10 @@ public class Statistics extends AppCompatActivity {
             int miss = Integer.parseInt(data.getString(3));
             int bombs = Integer.parseInt(data.getString(4));
             String name = data.getString(1);
+            double latitude = Double.parseDouble(data.getString(6));
+            double longitude = Double.parseDouble(data.getString(7));
 
-            Record record = new Record(name,seconds ,score,miss,bombs);
+            Record record = new Record(name,seconds ,score,miss,bombs,latitude,longitude);
             dataList.add(record.toString());
 
         }

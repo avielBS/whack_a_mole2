@@ -10,22 +10,33 @@ public class Record {
     private int bombs;
     private String name;
 
+    private double latitude;
+    private double longitude;
 
-    public Record(String name, int seconds, int score, int miss, int bombs) {
+    public Record(String name, int seconds, int score, int miss, int bombs ,double latitude , double longitude) {
         this.name = name;
         this.seconds = seconds;
         this.score = score;
         this.miss = miss;
         this.bombs = bombs;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public String toJsonString() {
-        return (new Gson()).toJson(this);
+    public double getLatitude() {
+        return latitude;
     }
 
-    public static Record getRecordFromJson(String json) {
-        Gson gson = new Gson();
-        return gson.fromJson(json, Record.class);
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public int getSeconds() {

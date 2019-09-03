@@ -1,5 +1,6 @@
 package com.example.whack_a_mole2;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -7,19 +8,30 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -30,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
     private static final int WIN_SCORE = 30;
     private static final int MAX_MISS = 3;
     private final int GAME_DURACTION = 30;
+    public static final int LOCATION_REQUEST = 101;
 
     private GridLayout gridGame;
 
@@ -51,6 +64,8 @@ public class GameActivity extends AppCompatActivity {
     private String name;
 
     private Record record;
+    private GoogleApiClient googleApiClient;
+    Location playerLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,9 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extars = getIntent().getExtras();
         name = extars.getString("PlayerName");
+
+        getCurrentLocation();
+
 
         gridGame = createGridLayout(3,3);
         cells = new Cell[ROWS*COLUMNS];
@@ -97,6 +115,32 @@ public class GameActivity extends AppCompatActivity {
             }, 200, 700);
 
             startCountDown();
+    }
+
+
+
+
+    private void getCurrentLocation() {
+        //Checking if the location permission is granted
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        //Fetching location using FusedLOcationProviderAPI
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    playerLocation = location;
+                    Log.d("location",""+ location.getLatitude() +"  " +  location.getLongitude());
+                }
+            }
+        });
+
+
+
     }
 
     private void setMoleAndBombListeners(final Cell cell) {
@@ -252,7 +296,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void saveRecord(){
-        this.record = new Record(name,(int)timeLeft,score,miss,bombs);
+        if(playerLocation != null)
+            this.record = new Record(name,(int)timeLeft,score,miss,bombs,playerLocation.getLatitude(),playerLocation.getLongitude());
+        else
+            this.record = new Record(name,(int)timeLeft,score,miss,bombs,0,0);
+
         final DatabaseHelper db = new DatabaseHelper(this);
 
         // todo : check insert
@@ -269,4 +317,10 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+    }
 }

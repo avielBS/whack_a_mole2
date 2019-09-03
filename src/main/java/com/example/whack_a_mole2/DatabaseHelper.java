@@ -14,6 +14,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String MISS = "MISS";
     private static final String BOMBS = "BOMBS";
     private static final String SECONDS = "SCONDS";
+    private static final String LATITUDE = "LATITUDE";
+    private static final String LONGITUDE = "LONGITUDE";
     private static final int LIMIT_NUMBER = 10;
 
 
@@ -29,8 +31,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +SCORE + " INTEGER,"
                 +MISS + " INTEGER,"
                 +BOMBS + " INTEGER,"
-                +SECONDS + " INTEGER"
-                +" )";
+                +SECONDS + " INTEGER,"
+                +LATITUDE + " REAL, "
+                +LONGITUDE + " REAL" +
+                " )";
 
         sqLiteDatabase.execSQL(createTable);
     }
@@ -50,6 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(MISS,record.getMiss());
         values.put(BOMBS,record.getBombs());
         values.put(SECONDS,(int)record.getSeconds()/1000);
+        values.put(LATITUDE,record.getLatitude());
+        values.put(LONGITUDE,record.getLongitude());
 
         long rowId = db.insert(TABLE_NAME,null,values);
         db.close();
