@@ -43,10 +43,10 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             LatLng latLng = new LatLng(records.get(i).getLatitude(),records.get(i).getLongitude());
             mMap.addMarker(new
                     MarkerOptions().position(latLng).title(records.get(i).getName()).snippet(records.get(i).getScore()+""));
-
-    //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(TutorialsPoint, 13));
         }
 
+        if(records.size()>0) //zoom to the first place
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom( new LatLng(records.get(0).getLatitude(),records.get(0).getLongitude()), 10));
     }
 
     private ArrayList<Record> getRecordsFromDB() {

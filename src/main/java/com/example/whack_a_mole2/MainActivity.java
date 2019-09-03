@@ -2,7 +2,9 @@ package com.example.whack_a_mole2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         SQLiteDatabase mydatabase = openOrCreateDatabase(getString(R.string.DBname),MODE_PRIVATE,null);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
 
 
