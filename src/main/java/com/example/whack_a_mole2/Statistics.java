@@ -50,7 +50,7 @@ public class Statistics extends AppCompatActivity {
             double longitude = Double.parseDouble(data.getString(7));
 
             Record record = new Record(name,seconds ,score,miss,bombs,latitude,longitude);
-            dataList.add(record.toString());
+            dataList.add("Name :"+record.getName()+"   Score : "+record.getScore());
 
         }
         Log.d(Thread.currentThread().getName(), dataList.toString());

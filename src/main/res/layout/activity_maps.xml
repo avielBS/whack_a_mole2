@@ -6,13 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Maps"
     android:orientation="vertical"
-    >
+    android:id="@+id/statistics_layout">
 
 <fragment android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:id="@+id/map"
-    android:layout_marginTop="100dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"></fragment>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+</fragment>
 
 </LinearLayout>

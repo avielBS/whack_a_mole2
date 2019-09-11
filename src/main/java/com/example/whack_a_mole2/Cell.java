@@ -5,13 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class Cell {
 
@@ -75,7 +73,7 @@ public class Cell {
     }
 
     public void showMoleOrBomb(final int moleOrBomb){
-        ImageView view =null;
+        ImageView view ;
 
         if(moleOrBomb == Util.BOMB) {
             view = this.bomb;

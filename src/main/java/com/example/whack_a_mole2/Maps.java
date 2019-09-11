@@ -1,10 +1,9 @@
 package com.example.whack_a_mole2;
 
 import android.database.Cursor;
-import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class Maps extends FragmentActivity implements OnMapReadyCallback {
+public class Maps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
