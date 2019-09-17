@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 public class Cell {
 
     private ImageView mole;
-    private ImageView whole;
+    private ImageView hole;
     private ImageView bomb;
     private ImageView boom;
 
@@ -30,8 +30,8 @@ public class Cell {
         mole.setTranslationY(70);
         mole.setAlpha(0f);
 
-        this.whole = new ImageView(context);
-        whole.setImageResource(R.drawable.small_whole);
+        this.hole = new ImageView(context);
+        hole.setImageResource(R.drawable.small_hole);
 
         this.bomb = new ImageView(context);
         bomb.setImageResource(R.drawable.bomb);
@@ -51,7 +51,7 @@ public class Cell {
 
 
         linearLayout.addView(mole);
-        linearLayout.addView(whole);
+        linearLayout.addView(hole);
         cell.addView(bomb);
         cell.addView(boom);
 
