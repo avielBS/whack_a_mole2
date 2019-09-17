@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Maps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,8 @@ public class Maps extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private ArrayList<Record> getRecordsFromDB() {
-        DatabaseHelper db = new DatabaseHelper(this);
-        Cursor data = db.getRecords();
+        databaseHelper =  new DatabaseHelper(this);
+        Cursor data = databaseHelper.getRecords();
 
         ArrayList<Record> dataList = new ArrayList<>();
 
@@ -67,8 +67,14 @@ public class Maps extends AppCompatActivity implements OnMapReadyCallback {
             dataList.add(record);
 
         }
+        databaseHelper.close();
         return dataList;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(databaseHelper!=null)
+            databaseHelper.close();
+    }
 }

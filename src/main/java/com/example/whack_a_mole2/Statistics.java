@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 public class Statistics extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,8 @@ public class Statistics extends AppCompatActivity {
     }
 
     private void readData() {
-        DatabaseHelper db = new DatabaseHelper(this);
-        Cursor data = db.getRecords();
+        databaseHelper = new DatabaseHelper(this);
+        Cursor data = databaseHelper.getRecords();
 
         ArrayList<String> dataList = new ArrayList<>();
 
@@ -56,13 +57,13 @@ public class Statistics extends AppCompatActivity {
         Log.d(Thread.currentThread().getName(), dataList.toString());
         ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(listAdapter);
+        databaseHelper.close();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DatabaseHelper db = new DatabaseHelper(this);
-        db.close();
+        databaseHelper.close();
 
     }
 }

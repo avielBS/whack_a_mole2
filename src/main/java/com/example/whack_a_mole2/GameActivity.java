@@ -66,6 +66,8 @@ public class GameActivity extends AppCompatActivity {
     private GoogleApiClient googleApiClient;
     Location playerLocation;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,14 +301,14 @@ public class GameActivity extends AppCompatActivity {
         else
             this.record = new Record(name,(int)timeLeft,score,miss,bombs,0,0);
 
-        final DatabaseHelper db = new DatabaseHelper(this);
+        databaseHelper =  new DatabaseHelper(this);
 
-        // todo : check insert
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                db.addRecord(record);
-                db.keepOnly10Best();
+                databaseHelper.addRecord(record);
+                databaseHelper.keepOnly10Best();
+                databaseHelper.close();
             }
         };
 
@@ -320,5 +322,12 @@ public class GameActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(databaseHelper!=null)
+            databaseHelper.close();
     }
 }
